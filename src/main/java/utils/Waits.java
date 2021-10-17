@@ -1,4 +1,4 @@
-package units;
+package utils;
 
 import core.ReadProperties;
 import org.openqa.selenium.By;
