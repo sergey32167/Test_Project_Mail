@@ -1,33 +1,56 @@
 package tests;
 
-import Pages.HomePage;
-import Pages.InMailPage;
-import Pages.LetterPage;
+import org.testng.Assert;
+import pages.HomePage;
+import pages.InMailPage;
+import pages.LetterPage;
 import baseEntities.BaseTest;
 import elements.DropDownMenu;
 import org.openqa.selenium.By;
 import org.testng.annotations.Test;
+import steps.LoginStep;
+import steps.WritingALetterStep;
 
 public class SmokeTests extends BaseTest {
 
     @Test
     public void test1() throws InterruptedException {
-        HomePage homePage = new HomePage(browsersService, true);
-        homePage.setUsername("sergeytestmail");
-        homePage.clickPswBtn();
-        homePage.waitsPasswordInput();
-        homePage.setPassword("122333444455555qaz");
-        homePage.clickComeInBtn();
+        LoginStep loginStep = new LoginStep(browsersService);
+        loginStep.loginWithCorrectDate("sergeytestmail", "122333444455555qaz");
+        WritingALetterStep writingALetterStep = new WritingALetterStep(browsersService);
+        writingALetterStep.sendLetter();
+
+    }
+
+    @Test
+    public void test2(){
+        LoginStep loginStep = new LoginStep(browsersService);
+        loginStep.loginWithCorrectDate("sergeytestmail", "122333444455555qaz");
         InMailPage inMailPage = new InMailPage(browsersService, false);
-        inMailPage.clickDdmBtn();
-        Thread.sleep(1000);
-        DropDownMenu dropDownMenu = new DropDownMenu(browsersService, By.xpath("//div[@class = 'dropdown__menu'] / descendant :: span[@class = 'list-item__text']"));
-        dropDownMenu.selectByName("Написать себе");
-        LetterPage letterPage = new LetterPage(browsersService, false);
-        letterPage.setInputText("Hello Sergey");
-        letterPage.clickSendButton();
-        inMailPage.getMyselfMail().isDisplayed();
-        inMailPage.getNewMail().isDisplayed();
+        inMailPage.newMailViz();
+        inMailPage.myselfMailViz();
+    }
+
+    @Test
+    public void test3() throws InterruptedException {
+        LoginStep loginStep = new LoginStep(browsersService);
+        loginStep.loginWithCorrectDate("sergeytestmail", "122333444455555qaz");
+        InMailPage inMailPage = new InMailPage(browsersService, false);
+        inMailPage.clickAllMyselfMail();
+        Thread.sleep(2000);
+        inMailPage.MyMailViz();
+    }
+
+    @Test
+    public void test4() throws InterruptedException {
+        LoginStep loginStep = new LoginStep(browsersService);
+        loginStep.loginWithCorrectDate("sergeytestmail", "122333444455555qaz");
+        InMailPage inMailPage = new InMailPage(browsersService, false);
+        inMailPage.clickAllMyselfMail();
+        Thread.sleep(2000);
+        inMailPage.clickAllMyMail1();
+        inMailPage.waitsTextMail();
+        Assert.assertEquals(inMailPage.textMail(), "Hello Sergey");
 
     }
 }

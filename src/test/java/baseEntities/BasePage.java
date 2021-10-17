@@ -21,11 +21,9 @@ public abstract class BasePage {
         this.driver = browsersService.getDriver();
         properties = ReadProperties.getInstance();
 
-
         if (openPageByURL) {
             openPage();
         }
-
         waitForOpen();
     }
 
@@ -42,7 +40,6 @@ public abstract class BasePage {
             secondsCount++;
             isPageOpenedIndicator = isPageOpened();
         }
-
         if (!isPageOpenedIndicator) {
             throw new AssertionError("Page was not opened");
         }
