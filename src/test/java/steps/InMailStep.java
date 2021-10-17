@@ -1,5 +1,6 @@
 package steps;
 
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.testng.Assert;
@@ -22,6 +23,13 @@ public class InMailStep extends BaseStep {
     public void userValidatesCountOfReceivedMessagesOnTopMenuBar(String count) {
         InMailPage inMailPage = new InMailPage(false);
         String countMessages = inMailPage.getCountMessagesFromTopBar();
+        Assert.assertEquals(countMessages.trim(), count);
+    }
+
+    @And("User validates count {string} of received messages on 'Письма себе' tab")
+    public void userValidatesCountOfReceivedMessagesOnПисьмаСебеTab(String count) {
+        InMailPage inMailPage = new InMailPage(false);
+        String countMessages = inMailPage.getCountMessagesFromTabWriteMe();
         Assert.assertEquals(countMessages.trim(), count);
     }
 }

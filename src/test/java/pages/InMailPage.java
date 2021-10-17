@@ -190,4 +190,9 @@ public class InMailPage extends BasePage {
     public String getCountMessagesFromTopBar() {
         return waits.waitForVisibility(countmessagesontopbar).getText();
     }
+
+    public String getCountMessagesFromTabWriteMe() {
+        return waits.waitForVisibility(myselfmail).getText();
+    }
+
 }
