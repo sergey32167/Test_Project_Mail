@@ -6,47 +6,33 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import utils.Waits;
 
 
 public class BrowsersService {
-    private WebDriver driver;
-    private Waits waits;
+    private static  ReadProperties properties;
+    private static Browsers browser;
 
-    public BrowsersService() {
+    public BrowsersService(ReadProperties properties) {
+        this.properties = properties;
+    }
 
-        switch (ReadProperties.getInstance().getBrowserName().toLowerCase()) {
-            case "chrome":
+    public static WebDriver createDriver() {
+        String browserName = properties.getBrowserName();
+        browser = Browsers.getBrowser(browserName);
+        switch (browser) {
+            case CHROME:
                 WebDriverManager.getInstance(DriverManagerType.CHROME).setup();
                 ChromeOptions chromeOptions = new ChromeOptions();
-                chromeOptions.setHeadless(ReadProperties.getInstance().isHeadless());
-                driver = new ChromeDriver(chromeOptions);
-                break;
+                chromeOptions.setHeadless(properties.isHeadless());
+                chromeOptions.addArguments("--start-fullscreen");
+                return new ChromeDriver(chromeOptions);
 
-            case "firefox":
+            case FIREFOX:
                 WebDriverManager.getInstance(DriverManagerType.FIREFOX).setup();
-                driver = new FirefoxDriver();
-                break;
+                return new FirefoxDriver();
 
             default:
-                System.out.println("Browser " + ReadProperties.getInstance().getBrowserName() + " is not supported.");
-        }
-        waits = new Waits(driver, ReadProperties.getInstance().getTimeOut());
-    }
-
-    public WebDriver getDriver() {
-        return driver;
-    }
-
-    public Waits getWaits() {
-        return waits;
-    }
-
-    public void sleep ( long millis){
-        try {
-            Thread.sleep(millis);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+                throw new RuntimeException("Browser " + browserName + " is not supported.");
         }
     }
 }

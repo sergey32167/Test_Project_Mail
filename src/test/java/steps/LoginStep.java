@@ -1,21 +1,18 @@
 package steps;
 
-import baseEntities.BaseStep;
 import core.BrowsersService;
+import io.cucumber.java.en.When;
 import pages.HomePage;
 
 public class LoginStep extends BaseStep {
 
-    public LoginStep(BrowsersService browsersService) {
-        super(browsersService);
-    }
-
-    public void loginWithCorrectDate(String Email, String Password){
-        HomePage homePage = new HomePage(browsersService, true);
-        homePage.setUsername(Email);
+    @When("User with {string} and {string} is logged in")
+    public void loginWithCorrectDate(String username, String password){
+        HomePage homePage = new HomePage(true);
+        homePage.setUsername(properties.getUsername());
         homePage.clickPswBtn();
         homePage.waitsPasswordInput();
-        homePage.setPassword(Password);
+        homePage.setPassword(properties.getPassword());
         homePage.clickComeInBtn();
     }
 }

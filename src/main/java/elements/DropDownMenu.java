@@ -2,6 +2,7 @@ package elements;
 
 import core.BrowsersService;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import java.util.ArrayList;
@@ -9,12 +10,12 @@ import java.util.List;
 
 public class DropDownMenu {
     private List<WebElement> options = new ArrayList<>();
-    private BrowsersService service;
+    private WebDriver driver;
 
-    public DropDownMenu(BrowsersService service, By by) {
-        this.service = service;
+    public DropDownMenu(WebDriver driver, By by) {
+        this.driver = driver;
 
-        for (WebElement element : service.getDriver().findElements(by)) {
+        for (WebElement element : driver.findElements(by)) {
             options.add(element);
         }
     }

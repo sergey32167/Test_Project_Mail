@@ -1,16 +1,23 @@
 package pages;
 
-import baseEntities.BasePage;
 import core.BrowsersService;
 import core.ReadProperties;
+import elements.DropDownMenu;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
+import utils.Utils;
+
+import java.util.List;
 
 public class InMailPage extends BasePage {
 
     private final static By writeletter = By.xpath("//span[text() = 'Написать письмо']");
     private final static By tomyself = By.xpath("//div[text()= 'Письма себе']");
+    private final static By selectall = By.xpath("//span[@class= 'button2__explanation' and normalize-space()='Выделить все']");
+    private final static By countmessagesontopbar = By.xpath("//a[text()='Почта']/span");
+    private final static By deleteicon = By.xpath("//span[@class= 'button2__txt' and normalize-space()='Удалить']");
+    private final static By confirmbutton = By.xpath("//div[contains(@class,'layer-confirm-folder')]//span[@class= 'button2__txt' and normalize-space()='Очистить']");
     private final static By socialnetwork = By.xpath("//div[text()= 'Социальные сети']");
     private final static By mailings = By.xpath("//div[text()= 'Рассылки']");
     private final static By basket = By.xpath("//div[text()= 'Корзина']");
@@ -19,22 +26,18 @@ public class InMailPage extends BasePage {
     private final static By mailrubtn = By.xpath("//a[@data-click-counter = '360866022, 61021854']");
     private final static By mailbtn = By.xpath("//a[@data-click-counter = '360866021, 61021856']");
     private final static By maillogo = By.cssSelector(".portal-menu-logo__logo__img");
-    private final static By ddmbutton = By.xpath("//span[@class = 'button2 button2_has-ico button2_has-ico-s button2_navigation_drop_down button2_rotate-ico button2_clean button2_always-bright button2_short button2_compact button2_hover-support'] / span[@class = 'button2__wrapper button2__wrapper_centered']");
+    private final static By ddmbutton = By.xpath("//a[@title='Написать письмо']/../div//span[@class='button2__wrapper button2__wrapper_centered']");
     private final static By myselfmail = By.cssSelector(".badge.badge_size_m");
     private final static By newmailbtn = By.cssSelector(".ph-project__counter.svelte-1dxh3mc");
     private final static By allmyselfmail = By.cssSelector(".mt-t.mt-t_tomyself.mt-t_ponymode");
     private final static By allmymail1 = By.cssSelector(".llc__item.llc__item_title");
     private final static By textmail = By.xpath("//div[text() = 'Hello Sergey']");
+    private final static By drobdawnarrow = By.xpath("//div[@class = 'dropdown__menu'] / descendant :: span[@class = 'list-item__text']");
     private final static String endpoint = "inbox/";
 
-    public InMailPage(BrowsersService browsersService, boolean openPageByURL) {
-        super(browsersService, openPageByURL);
+    public InMailPage(boolean openPageByUR) {
+        super(openPageByUR);
     }
-
-    @Override
-    protected void openPage() {
-            browsersService.getDriver().get(ReadProperties.getInstance().getURL() + endpoint);
-        }
 
     @Override
     public boolean isPageOpened() {
@@ -43,6 +46,17 @@ public class InMailPage extends BasePage {
         } catch (NoSuchElementException ex) {
             return false;
         }
+    }
+
+    @Override
+    public void openPage() {
+        driver.get(properties.getURL() + endpoint);
+    }
+
+    public void selectDropDawnByOptions(String option){
+        DropDownMenu dropDownMenu = new DropDownMenu(driver,drobdawnarrow);
+        Utils.sleep(1000);
+        dropDownMenu.selectByName(option);
     }
 
     public WebElement getMailLogo (){
@@ -141,15 +155,16 @@ public class InMailPage extends BasePage {
     }
 
     public void clickDdmBtn() {
-        getDdmBtn().click();
+        waits.waitForVisibility(ddmbutton).click();
     }
 
     public void newMailViz() {
         getNewMail().isDisplayed();
     }
 
-    public void myselfMailViz() {
-        getMyselfMail().isDisplayed();
+    public boolean myselfMailViz() {
+        List<WebElement> webElementList=  driver.findElements(myselfmail);
+        return !webElementList.isEmpty();
     }
 
     public void MyMailViz() {
@@ -157,7 +172,22 @@ public class InMailPage extends BasePage {
     }
 
     public void waitsTextMail() {
-        browsersService.getWaits().waitForVisibility(textmail);
+        waits.waitForVisibility(textmail);
     }
 
+    public void selectAllMessages() {
+        waits.waitForClickable(selectall).click();
+    }
+
+    public void clickDeleteIcon() {
+        waits.waitForVisibility(deleteicon).click();
+    }
+
+    public void clickConfirmButton() {
+        waits.waitForVisibility(confirmbutton).click();
+    }
+
+    public String getCountMessagesFromTopBar() {
+        return waits.waitForVisibility(countmessagesontopbar).getText();
+    }
 }

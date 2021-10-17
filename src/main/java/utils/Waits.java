@@ -14,10 +14,6 @@ public class Waits {
         wait = new WebDriverWait(driver, timeOut);
     }
 
-    public Waits(WebDriver driver) {
-        wait = new WebDriverWait(driver, ReadProperties.getInstance().getTimeOut());
-    }
-
     public void waitForAlert() {
         wait.until(ExpectedConditions.alertIsPresent());
     }

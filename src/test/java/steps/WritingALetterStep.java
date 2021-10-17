@@ -1,25 +1,31 @@
 package steps;
 
-import baseEntities.BaseStep;
-import core.BrowsersService;
-import elements.DropDownMenu;
-import org.openqa.selenium.By;
+import io.cucumber.java.en.And;
+import io.cucumber.java.en.When;
 import pages.InMailPage;
 import pages.LetterPage;
 
+
 public class WritingALetterStep extends BaseStep {
-    public WritingALetterStep(BrowsersService browsersService) {
-        super(browsersService);
+    @When("User selects {string} option from dropdown menu")
+    public void sendLetter(String option) {
+        InMailPage inMailPage = new InMailPage(false);
+        inMailPage.clickDdmBtn();
+        inMailPage.selectDropDawnByOptions(option);
+
     }
 
-    public void sendLetter() throws InterruptedException {
-        InMailPage inMailPage = new InMailPage(browsersService, false);
-        inMailPage.clickDdmBtn();
-        Thread.sleep(1000);
-        DropDownMenu dropDownMenu = new DropDownMenu(browsersService, By.xpath("//div[@class = 'dropdown__menu'] / descendant :: span[@class = 'list-item__text']"));
-        dropDownMenu.selectByName("Написать себе");
-        LetterPage letterPage = new LetterPage(browsersService, false);
-        letterPage.setInputText("Hello Sergey");
+    @And("User writes {string} message in form")
+    public void userWritesHelloSergeyMessageInForm(String message) {
+        LetterPage letterPage = new LetterPage(false);
+        letterPage.setInputText(message);
+
+    }
+
+    @And("User clicks send message button and and wait for invisibility modal window 'Письмо отправлено'")
+    public void userClicksSendMessageButton() {
+        LetterPage letterPage = new LetterPage(false);
         letterPage.clickSendButton();
+
     }
 }

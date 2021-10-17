@@ -1,6 +1,5 @@
 package pages;
 
-import baseEntities.BasePage;
 import core.BrowsersService;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -15,14 +14,10 @@ public class LetterPage extends BasePage {
     private final static By cancelbutton = By.xpath("//span[text() = 'Отменить']");
     private final static By inputtext = By.xpath("//div[@tabindex = '505'] / child :: div");
     private final static By letterlogo = By.cssSelector(".container--2a9I2.container_full--2INh1");
+    private final static By letterissendconfirmnodal = By.xpath("//a[text()='Письмо отправлено']");
 
-    public LetterPage(BrowsersService browsersService, boolean openPageByURL) {
-        super(browsersService, openPageByURL);
-    }
-
-    @Override
-    protected void openPage() {
-
+    public LetterPage(boolean openPageByUR) {
+        super(openPageByUR);
     }
 
     @Override
@@ -34,39 +29,48 @@ public class LetterPage extends BasePage {
         }
     }
 
-    public WebElement getLetterLogo (){
+    @Override
+    public void openPage() {
+
+    }
+
+    public WebElement getLetterLogo() {
         return driver.findElement(letterlogo);
     }
 
-    public WebElement getWhom (){
+    public WebElement getWhom() {
         return driver.findElement(whom);
     }
 
-    public WebElement getTheme (){
+    public WebElement getTheme() {
         return driver.findElement(theme);
     }
 
-    public WebElement getSendButton (){
+    public WebElement getSendButton() {
         return driver.findElement(sendbutton);
     }
 
-    public WebElement getSaveButton (){
+    public WebElement getSaveButton() {
         return driver.findElement(savebutton);
     }
 
-    public WebElement getCancelButton (){ return driver.findElement(cancelbutton);}
+    public WebElement getCancelButton() {
+        return driver.findElement(cancelbutton);
+    }
 
-    public WebElement getInputText (){ return driver.findElement(inputtext);}
+    public WebElement getInputText() {
+        return driver.findElement(inputtext);
+    }
 
-    public void setWhom(String text){
+    public void setWhom(String text) {
         getWhom().sendKeys(text);
     }
 
-    public void setTheme(String text){
+    public void setTheme(String text) {
         getTheme().sendKeys(text);
     }
 
-    public void setInputText(String text){
+    public void setInputText(String text) {
         getInputText().sendKeys(text);
     }
 
@@ -82,5 +86,7 @@ public class LetterPage extends BasePage {
         getCancelButton().click();
     }
 
-
+    public void waitForInvisibilityConfirmModal() {
+        waits.waitForInvisibility(letterissendconfirmnodal);
+    }
 }

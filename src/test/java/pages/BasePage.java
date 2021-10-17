@@ -1,27 +1,28 @@
-package baseEntities;
+package pages;
 
 import core.BrowsersService;
 import core.ReadProperties;
+import core.WebDriverSingleton;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
+import utils.Utils;
+import utils.Waits;
 
 public abstract class BasePage {
-
     protected static final int WAIT_FOR_PAGE_LOADING_SEC = 10;
-    protected WebDriver driver;
     protected ReadProperties properties;
-    protected final BrowsersService browsersService;
-
-    protected abstract void openPage();
+    protected WebDriver driver;
+    protected Waits waits;
 
     public abstract boolean isPageOpened();
 
-    public BasePage(BrowsersService browsersService, boolean openPageByURL) {
-        this.browsersService = browsersService;
-        this.driver = browsersService.getDriver();
-        properties = ReadProperties.getInstance();
+    public abstract void openPage();
 
-        if (openPageByURL) {
+    public BasePage( boolean openPageByUR) {
+        this.driver = WebDriverSingleton.getDriverInstance();
+        this.properties = ReadProperties.getInstance();
+        this.waits = new Waits(driver, properties.getTimeOut());
+        if (openPageByUR) {
             openPage();
         }
         waitForOpen();
@@ -32,11 +33,7 @@ public abstract class BasePage {
         boolean isPageOpenedIndicator = isPageOpened();
 
         while (!isPageOpenedIndicator && secondsCount < WAIT_FOR_PAGE_LOADING_SEC) {
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            Utils.sleep(1000);
             secondsCount++;
             isPageOpenedIndicator = isPageOpened();
         }

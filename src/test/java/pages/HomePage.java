@@ -1,6 +1,5 @@
 package pages;
 
-import baseEntities.BasePage;
 import core.BrowsersService;
 import core.ReadProperties;
 import org.openqa.selenium.By;
@@ -16,13 +15,8 @@ public class HomePage extends BasePage {
     private final static By searchbutton = By.id("search:submit");
     private final static By writeletterbutton = By.xpath("//div[@class = 'i-link-deco']");
 
-    public HomePage(BrowsersService browsersService, boolean openPageByURL) {
-        super(browsersService, openPageByURL);
-    }
-
-    @Override
-    protected void openPage() {
-        browsersService.getDriver().get(ReadProperties.getInstance().getURL());
+    public HomePage(boolean openPageByUR) {
+        super(openPageByUR);
     }
 
     @Override
@@ -32,6 +26,11 @@ public class HomePage extends BasePage {
         } catch (NoSuchElementException ex) {
             return false;
         }
+    }
+
+    @Override
+    public void openPage() {
+        driver.get(properties.getURL());
     }
 
     public WebElement getName (){
@@ -77,7 +76,7 @@ public class HomePage extends BasePage {
     }
 
     public void waitsPasswordInput() {
-        browsersService.getWaits().waitForVisibility(password);
+        waits.waitForVisibility(password);
     }
 
 }
