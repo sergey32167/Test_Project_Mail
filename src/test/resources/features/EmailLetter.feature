@@ -35,7 +35,7 @@ Feature: Creating email letters.
     And User cleans mailbox
     And User clicks basket button
     Then User validates received row message from 'Сергей Сергкй'
-@Run
+
   Scenario: Validate that the message text is expected
     When User clicks 'Входящие' button
     And User selects 'Написать себе' option from dropdown menu

@@ -16,7 +16,7 @@ import org.testng.annotations.*;
                         "html:target/cucumber-reports/cucumber-pretty.html",
                         "json:target/cucumber-json-report/cucumber.json",
                 },
-        tags = "@Run"
+        tags = ""
 )
 
 public class TestNgRunner extends AbstractTestNGCucumberTests {
