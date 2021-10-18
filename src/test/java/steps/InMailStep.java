@@ -49,7 +49,7 @@ public class InMailStep {
         inMailPage.clickAllMyMail1();
     }
 
-    @And("User clicks on message 'Сергей Сергкй'")
+    @And("User clicks on first message")
     public void userClickMessage() {
         InMailPage inMailPage = new InMailPage(false);
         inMailPage.clickFirstMessageFromTop();

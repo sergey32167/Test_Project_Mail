@@ -43,5 +43,5 @@ Feature: Creating email letters.
     And User writes 'Hello' massage in theme
     And User clicks send message button and wait for invisibility modal window 'Письмо отправлено'
     And User expands 'ПИСЬМА СЕБЕ' row
-    And User clicks on message 'Сергей Сергкй'
+    And User clicks on first message
     Then User validates received message with expected text 'Hello Sergey' and theme 'Hello'
