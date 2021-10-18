@@ -1,7 +1,5 @@
 package pages;
 
-import core.BrowsersService;
-import core.ReadProperties;
 import elements.DropDownMenu;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -14,6 +12,7 @@ public class InMailPage extends BasePage {
 
     private final static By writeletter = By.xpath("//span[text() = 'Написать письмо']");
     private final static By tomyself = By.xpath("//div[text()= 'Письма себе']");
+    private final static By innerletters = By.xpath("//div[text()= 'Входящие']");
     private final static By selectall = By.xpath("//span[@class= 'button2__explanation' and normalize-space()='Выделить все']");
     private final static By countmessagesontopbar = By.xpath("//a[text()='Почта']/span");
     private final static By deleteicon = By.xpath("//span[@class= 'button2__txt' and normalize-space()='Удалить']");
@@ -31,7 +30,7 @@ public class InMailPage extends BasePage {
     private final static By newmailbtn = By.cssSelector(".ph-project__counter.svelte-1dxh3mc");
     private final static By allmyselfmail = By.cssSelector(".mt-t.mt-t_tomyself.mt-t_ponymode");
     private final static By allmymail1 = By.cssSelector(".llc__item.llc__item_title");
-    private final static By textmail = By.xpath("//div[text() = 'Hello Sergey']");
+    private final static By listreceivedletters = By.cssSelector(".llc__container");
     private final static By drobdawnarrow = By.xpath("//div[@class = 'dropdown__menu'] / descendant :: span[@class = 'list-item__text']");
     private final static String endpoint = "inbox/";
 
@@ -53,62 +52,76 @@ public class InMailPage extends BasePage {
         driver.get(properties.getURL() + endpoint);
     }
 
-    public void selectDropDawnByOptions(String option){
-        DropDownMenu dropDownMenu = new DropDownMenu(driver,drobdawnarrow);
+    public void selectDropDawnByOptions(String option) {
+        DropDownMenu dropDownMenu = new DropDownMenu(driver, drobdawnarrow);
         Utils.sleep(1000);
         dropDownMenu.selectByName(option);
     }
 
-    public WebElement getMailLogo (){
+    public WebElement getMailLogo() {
         return driver.findElement(maillogo);
     }
 
-    public WebElement getTextMail (){
-        return driver.findElement(textmail);
-    }
-
-    public WebElement getBasket (){
+    public WebElement getBasket() {
         return driver.findElement(basket);
     }
 
-    public WebElement getCleanBasket (){
+    public WebElement getCleanBasket() {
         return driver.findElement(cleanbasket);
     }
 
-    public WebElement getWriteLetter (){
+    public WebElement getWriteLetter() {
         return driver.findElement(writeletter);
     }
 
-    public WebElement getToMyself (){
+    public WebElement getToMyself() {
         return driver.findElement(tomyself);
     }
 
-    public WebElement getSocialNetwork (){
+    public WebElement getSocialNetwork() {
         return driver.findElement(socialnetwork);
     }
 
-    public WebElement getMailings (){
+    public WebElement getMailings() {
         return driver.findElement(mailings);
     }
 
-    public WebElement getNews (){ return driver.findElement(news);}
+    public WebElement getNews() {
+        return driver.findElement(news);
+    }
 
-    public WebElement getMailRuBtn (){ return driver.findElement(mailrubtn);}
+    public WebElement getMailRuBtn() {
+        return driver.findElement(mailrubtn);
+    }
 
-    public WebElement getMailBtn (){ return driver.findElement(mailbtn);}
+    public WebElement getMailBtn() {
+        return driver.findElement(mailbtn);
+    }
 
-    public WebElement getDdmBtn (){ return driver.findElement(ddmbutton);}
+    public WebElement getDdmBtn() {
+        return driver.findElement(ddmbutton);
+    }
 
-    public WebElement getNewMail (){ return driver.findElement(newmailbtn);}
+    public WebElement getNewMail() {
+        return driver.findElement(newmailbtn);
+    }
 
-    public WebElement getMyselfMail (){ return driver.findElement(myselfmail);}
+    public WebElement getInnerLetterButton() {
+        return driver.findElement(innerletters);
+    }
 
-    public WebElement getAllMyselfMail (){ return driver.findElement(allmyselfmail);}
+    public WebElement getMyselfMail() {
+        return driver.findElement(myselfmail);
+    }
 
-    public WebElement getAllMyMail1 (){ return driver.findElement(allmymail1);}
+    public WebElement getAllMyselfMail() {
+        return driver.findElement(allmyselfmail);
+    }
 
+    public WebElement getAllMyMail1() {
+        return driver.findElement(allmymail1);
+    }
 
-    public String textMail(){return getTextMail().getText(); }
 
     public void clickWriteLetter() {
         getWriteLetter().click();
@@ -163,16 +176,12 @@ public class InMailPage extends BasePage {
     }
 
     public boolean myselfMailViz() {
-        List<WebElement> webElementList=  driver.findElements(myselfmail);
+        List<WebElement> webElementList = driver.findElements(myselfmail);
         return !webElementList.isEmpty();
     }
 
     public void MyMailViz() {
         getAllMyMail1().isDisplayed();
-    }
-
-    public void waitsTextMail() {
-        waits.waitForVisibility(textmail);
     }
 
     public void selectAllMessages() {
@@ -193,6 +202,26 @@ public class InMailPage extends BasePage {
 
     public String getCountMessagesFromTabWriteMe() {
         return waits.waitForVisibility(myselfmail).getText();
+    }
+
+    public String getTextFirstLetterFromTop() {
+        waits.waitForVisibility(listreceivedletters);
+        List<WebElement> list = driver.findElements(listreceivedletters);
+        return list.get(0).getText();
+    }
+
+    public void clickFirstMessageFromTop() {
+        waits.waitForVisibility(listreceivedletters);
+        List<WebElement> list = driver.findElements(listreceivedletters);
+        list.get(0).click();
+    }
+
+    public void clickInnerLetters() {
+        getInnerLetterButton().click();
+    }
+
+    public void clickBasketButton() {
+        getBasket().click();
     }
 
 }

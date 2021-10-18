@@ -1,6 +1,5 @@
 package pages;
 
-import core.BrowsersService;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
@@ -88,5 +87,14 @@ public class LetterPage extends BasePage {
 
     public void waitForInvisibilityConfirmModal() {
         waits.waitForInvisibility(letterissendconfirmnodal);
+    }
+
+    public void waitForVisibilityConfirmModal() {
+        waits.waitForVisibility(letterissendconfirmnodal);
+    }
+
+    public String getTextConfirmModal() {
+        return waits.waitForVisibility(letterissendconfirmnodal).getText();
+
     }
 }

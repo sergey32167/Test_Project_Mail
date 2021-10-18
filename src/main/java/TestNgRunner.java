@@ -5,10 +5,7 @@ import io.cucumber.testng.AbstractTestNGCucumberTests;
 import io.cucumber.testng.CucumberOptions;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.*;
 
 @CucumberOptions(
         features = {"src/test/resources/features"},
@@ -19,11 +16,14 @@ import org.testng.annotations.BeforeTest;
                         "html:target/cucumber-reports/cucumber-pretty.html",
                         "json:target/cucumber-json-report/cucumber.json",
                 },
-        tags = ""
+        tags = "@Run"
 )
 
 public class TestNgRunner extends AbstractTestNGCucumberTests {
     protected final Logger logger = LogManager.getLogger(this);
+
+    @AfterMethod
+    public void cleanCookies(){ WebDriverSingleton. cleanCookies(); }
 
     @AfterSuite
     public void closeBrowser() {

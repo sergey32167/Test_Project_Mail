@@ -1,6 +1,5 @@
 package utils;
 
-import core.ReadProperties;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -24,6 +23,10 @@ public class Waits {
 
     public WebElement waitForVisibility(By by) {
         return wait.until(ExpectedConditions.visibilityOfElementLocated(by));
+    }
+
+    public boolean textToBePresentInElementLocated(By by, String text) {
+        return wait.until(ExpectedConditions.textToBePresentInElementLocated(by,text ));
     }
 
     public WebElement waitForVisibility(WebElement webElement) {
@@ -50,4 +53,6 @@ public class Waits {
         wait.until(ExpectedConditions.attributeContains(by, attribute, attributeValue));
     }
 }
+
+
 

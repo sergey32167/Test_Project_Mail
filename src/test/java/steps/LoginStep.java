@@ -1,6 +1,5 @@
 package steps;
 
-import core.BrowsersService;
 import io.cucumber.java.en.When;
 import pages.HomePage;
 
